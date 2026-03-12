@@ -72,12 +72,12 @@ function PillInput({
         aria-describedby={hasError ? `${id}-error` : undefined}
         onFocus={() => setFocused(true)}
         onBlur={() => { setFocused(false); onBlur?.(); }}
-        className="w-full px-5 py-4 rounded-full text-white placeholder-white/55 text-sm font-light outline-none transition-all duration-200"
+        className="pill-input w-full px-5 py-4 rounded-full text-white placeholder-white/55 text-sm font-light outline-none"
         style={{
           background: hasError
             ? "linear-gradient(to bottom, rgba(255,80,80,0.18) 0%, rgba(200,60,60,0.12) 100%)"
             : focused
-            ? "linear-gradient(to bottom, rgba(255,255,255,0.22) 0%, rgba(180,210,255,0.18) 100%)"
+            ? "linear-gradient(to bottom, rgba(255,255,255,0.26) 0%, rgba(180,210,255,0.18) 100%)"
             : "linear-gradient(to bottom, rgba(255,255,255,0.18) 0%, rgba(140,190,255,0.10) 100%)",
           border: hasError
             ? "1px solid rgba(255,100,100,0.75)"
@@ -86,30 +86,7 @@ function PillInput({
             : "1px solid rgba(255,255,255,0.22)",
           backdropFilter: "blur(14px)",
           WebkitBackdropFilter: "blur(14px)",
-          boxShadow: hasError
-            ? `
-              0 2px 0 rgba(255,120,120,0.2) inset,
-              0 -1px 0 rgba(120,0,0,0.15) inset,
-              0 4px 0 rgba(255,80,80,0.12),
-              0 6px 20px rgba(180,0,0,0.18),
-              0 0 0 3px rgba(255,80,80,0.1)
-            `
-            : focused
-            ? `
-              0 2px 0 rgba(255,255,255,0.25) inset,
-              0 -1px 0 rgba(0,20,100,0.2) inset,
-              0 6px 0 rgba(100,150,255,0.15),
-              0 10px 24px rgba(0,30,160,0.25),
-              0 20px 40px rgba(80,140,255,0.12),
-              0 0 0 3px rgba(255,255,255,0.1)
-            `
-            : `
-              0 2px 0 rgba(255,255,255,0.15) inset,
-              0 -1px 0 rgba(0,20,100,0.15) inset,
-              0 4px 0 rgba(100,150,255,0.1),
-              0 6px 16px rgba(0,30,160,0.18),
-              0 14px 28px rgba(80,140,255,0.08)
-            `,
+          boxShadow: "none",
           letterSpacing: "0.01em",
         }}
       />
@@ -409,6 +386,14 @@ export default function LandingPage() {
         .toast {
           animation: toastIn 0.3s cubic-bezier(0.22,1,0.36,1) both;
         }
+
+        .pill-input {
+          transition: border-color 0.2s ease, background 0.2s ease;
+        }
+        .pill-input:hover:not(:focus) {
+          border-color: rgba(255,255,255,0.5) !important;
+          background: linear-gradient(to bottom, rgba(255,255,255,0.26) 0%, rgba(180,210,255,0.18) 100%) !important;
+        }
       `}</style>
 
       {/* ── Full-screen wrapper ── */}
@@ -448,36 +433,19 @@ export default function LandingPage() {
         )}
 
         {/* ── Content layer ── */}
-        <div className="relative z-10 flex flex-col flex-1 w-full">
+        <div className="relative z-10 flex flex-col flex-1 w-full items-center justify-center px-6 py-12">
+          <div className="w-full flex flex-col items-center gap-10" style={{ maxWidth: 420 }}>
 
-          {/* LOGO */}
-          <div
-            className={`text-center pt-12 sm:pt-16 ${mounted ? "anim-logo" : "opacity-0"}`}
-          >
-            <span
-              style={{
-                fontFamily: "'Ethnocentric', sans-serif",
-                fontWeight: 800,
-                fontSize: "1.6rem",
-                letterSpacing: "0.18em",
-                color: "#111",
-                textTransform: "uppercase",
-              }}
-            >
-              SIXDX
-            </span>
-          </div>
+            {/* LOGO */}
+            <div className={mounted ? "anim-logo" : "opacity-0"}>
+              <img src="/SixDX Logo.svg" alt="SixDX" style={{ height: 40 }} />
+            </div>
 
-          {/* Spacer */}
-          <div className="flex-1" />
-
-          {/* ── FORM ── */}
-          <div className="w-full px-6 pb-10 sm:pb-16 flex flex-col items-center">
+            {/* ── FORM ── */}
             <form
               onSubmit={handleSubmit}
               noValidate
               className="w-full"
-              style={{ maxWidth: 420 }}
             >
               {/* Inputs */}
               <div
@@ -518,13 +486,7 @@ export default function LandingPage() {
                     background: "linear-gradient(to bottom, #ffffff 0%, #dce8ff 100%)",
                     color: "#0a20bb",
                     letterSpacing: "0.01em",
-                    boxShadow: `
-                      0 2px 0 rgba(255,255,255,0.85) inset,
-                      0 -2px 0 rgba(160,185,255,0.4) inset,
-                      0 6px 0 rgba(160,185,255,0.3),
-                      0 10px 20px rgba(0,30,160,0.3),
-                      0 20px 40px rgba(100,160,255,0.15)
-                    `,
+                    boxShadow: "none",
                     textShadow: "0 1px 0 rgba(255,255,255,0.6)",
                   }}
                 >
@@ -557,3 +519,4 @@ export default function LandingPage() {
     </>
   );
 }
+

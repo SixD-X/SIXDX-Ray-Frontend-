@@ -214,10 +214,14 @@ export default function Organisation() {
         }
 
         .select-trigger {
-          transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+          transition: border-color 0.2s ease, background 0.2s ease;
         }
         .select-trigger:focus-visible {
           outline: none;
+        }
+        .select-trigger:hover:not([aria-expanded="true"]) {
+          border-color: rgba(255,255,255,0.5) !important;
+          background: linear-gradient(to bottom, rgba(255,255,255,0.26) 0%, rgba(180,210,255,0.18) 100%) !important;
         }
       `}</style>
 
@@ -229,30 +233,16 @@ export default function Organisation() {
         <MeshGradient />
 
         {/* ── Content ── */}
-        <div className="relative z-10 flex flex-col flex-1 w-full">
+        <div className="relative z-10 flex flex-col flex-1 w-full items-center justify-center px-6 py-12">
+          <div className="w-full flex flex-col items-center gap-10" style={{ maxWidth: 420 }}>
 
-          {/* LOGO */}
-          <div className={`text-center pt-12 sm:pt-16 ${mounted ? "anim-logo" : "opacity-0"}`}>
-            <span
-              style={{
-                fontFamily: "'Ethnocentric', sans-serif",
-                fontWeight: 800,
-                fontSize: "1.6rem",
-                letterSpacing: "0.18em",
-                color: "#111",
-                textTransform: "uppercase",
-              }}
-            >
-              SIXDX
-            </span>
-          </div>
+            {/* LOGO */}
+            <div className={mounted ? "anim-logo" : "opacity-0"}>
+              <img src="/SixDX Logo.svg" alt="SixDX" style={{ height: 40 }} />
+            </div>
 
-          {/* Spacer */}
-          <div className="flex-1" />
-
-          {/* ── Form area ── */}
-          <div className="w-full px-6 pb-10 sm:pb-16 flex flex-col items-center">
-            <div className="w-full" style={{ maxWidth: 420 }}>
+            {/* ── Form area ── */}
+            <div className="w-full">
 
               {/* "Organisation" label — left-aligned, matching screenshot */}
               <div className={`mb-2 ${mounted ? "anim-label" : "opacity-0"}`}>
@@ -285,22 +275,7 @@ export default function Organisation() {
                       : "1px solid rgba(255,255,255,0.22)",
                     backdropFilter: "blur(14px)",
                     WebkitBackdropFilter: "blur(14px)",
-                    boxShadow: open
-                      ? `
-                        0 2px 0 rgba(255,255,255,0.25) inset,
-                        0 -1px 0 rgba(0,20,100,0.2) inset,
-                        0 6px 0 rgba(100,150,255,0.15),
-                        0 10px 24px rgba(0,30,160,0.25),
-                        0 20px 40px rgba(80,140,255,0.12),
-                        0 0 0 3px rgba(255,255,255,0.1)
-                      `
-                      : `
-                        0 2px 0 rgba(255,255,255,0.15) inset,
-                        0 -1px 0 rgba(0,20,100,0.15) inset,
-                        0 4px 0 rgba(100,150,255,0.1),
-                        0 6px 16px rgba(0,30,160,0.18),
-                        0 14px 28px rgba(80,140,255,0.08)
-                      `,
+                    boxShadow: "none",
                     color: selected ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.45)",
                     letterSpacing: "0.01em",
                   }}
@@ -393,13 +368,7 @@ export default function Organisation() {
                     background: "linear-gradient(to bottom, #ffffff 0%, #dce8ff 100%)",
                     color: "#0a20bb",
                     letterSpacing: "0.04em",
-                    boxShadow: `
-                      0 2px 0 rgba(255,255,255,0.85) inset,
-                      0 -2px 0 rgba(160,185,255,0.4) inset,
-                      0 6px 0 rgba(160,185,255,0.3),
-                      0 10px 20px rgba(0,30,160,0.3),
-                      0 20px 40px rgba(100,160,255,0.15)
-                    `,
+                    boxShadow: "none",
                     textShadow: "0 1px 0 rgba(255,255,255,0.6)",
                   }}
                 >
