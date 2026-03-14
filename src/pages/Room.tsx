@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type Mode = "idle" | "join" | "create";
@@ -268,6 +269,14 @@ function CameraPreview({
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function Room() {
   const navigate = useNavigate();
+  const { setUsername, setSelectedOrg, setIsTestLogin } = useAppContext();
+
+  function handleLogout() {
+    setUsername(null);
+    setSelectedOrg(null);
+    setIsTestLogin(false);
+    navigate("/");
+  }
 
   const [mode, setMode] = useState<Mode>("idle");
   const [joinCode, setJoinCode] = useState("");
@@ -449,31 +458,67 @@ export default function Room() {
       >
         <MeshGradient />
 
-        <div className="relative z-10 flex flex-col flex-1 w-full">
+        <div className="relative z-10 flex flex-col flex-1 w-full items-center justify-center px-5 py-10 sm:py-14">
+          <div className="w-full flex flex-col items-center gap-20" style={{ maxWidth: 860 }}>
 
-          {/* ── Logo ── */}
-          <div className={`text-center pt-10 sm:pt-14 ${mounted ? "anim-logo" : "opacity-0"}`}>
-            <span style={{
-              fontFamily: "'Ethnocentric', sans-serif",
-              fontWeight: 800,
-              fontSize: "1.5rem",
-              letterSpacing: "0.18em",
-              color: "#111",
-              textTransform: "uppercase" as const,
-            }}>
-              SIXDX
-            </span>
+          {/* ── Header ── */}
+          <div className={`relative flex items-center justify-center w-full ${mounted ? "anim-logo" : "opacity-0"}`}>
+            <img src="/SixDX Logo.svg" alt="SixDX" style={{ height: 36 }} />
+            <div className="absolute right-5 flex items-center gap-2">
+              {/* Recordings */}
+              <button
+                onClick={() => navigate("/recordings")}
+                className="flex items-center gap-1.5 text-xs px-3 py-2 rounded-full transition-all duration-150 hover:scale-[1.03] active:scale-[0.97]"
+                style={{
+                  background: "rgba(255,255,255,0.18)",
+                  border: "1px solid rgba(255,255,255,0.35)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  color: "rgba(0,0,0,0.6)",
+                  cursor: "pointer",
+                  fontFamily: "'DM Sans', sans-serif",
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2.2"
+                  strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polygon points="10 8 16 12 10 16 10 8"/>
+                </svg>
+                Recordings
+              </button>
+              {/* Logout */}
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1.5 text-xs px-3 py-2 rounded-full transition-all duration-150 hover:scale-[1.03] active:scale-[0.97]"
+                style={{
+                  background: "rgba(239,68,68,0.12)",
+                  border: "1px solid rgba(239,68,68,0.3)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  color: "rgba(180,40,40,0.85)",
+                  cursor: "pointer",
+                  fontFamily: "'DM Sans', sans-serif",
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2.2"
+                  strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/>
+                  <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Log out
+              </button>
+            </div>
           </div>
 
-          <div className="flex-1" />
-
           {/* ── Main panel ── */}
-          <div className="w-full px-5 pb-10 sm:pb-14 flex flex-col items-center gap-5">
+          <div className="w-full">
 
             {/* Camera preview + controls side by side on wider screens */}
             <div
               className={`w-full flex flex-col lg:flex-row items-center justify-center gap-5 ${mounted ? "anim-preview" : "opacity-0"}`}
-              style={{ maxWidth: 860 }}
             >
               {/* Camera preview */}
               <div className="w-full lg:w-auto lg:flex-1" style={{ maxWidth: 420 }}>
@@ -776,6 +821,7 @@ export default function Room() {
                 )}
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>

@@ -812,16 +812,7 @@ export default function RecordingPage({
             backdropFilter: "blur(16px)",
           }}
         >
-          <span
-            style={{
-              fontFamily: "'Ethnocentric', sans-serif",
-              fontSize: "1rem",
-              letterSpacing: "0.18em",
-              color: "rgba(255,255,255,0.9)",
-            }}
-          >
-            SIXDX
-          </span>
+          <img src="/SixDX White.svg" alt="SixDX" style={{ height: 28 }} />
 
           <span className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
             Recordings

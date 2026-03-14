@@ -1,6 +1,7 @@
 import { type ReactElement } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import LandingPage from './pages/LandingPage'
+import Signup from './pages/Signup'
 import Organisation from './pages/Organisation'
 import Meeting from './pages/Meeting'
 import Room from './pages/Room'
@@ -65,6 +66,7 @@ function AppRoutes() {
           </RequireOrganisation>
         }
       />
+      <Route path="/signup" element={<Signup />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

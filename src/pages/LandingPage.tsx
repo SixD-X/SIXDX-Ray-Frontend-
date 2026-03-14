@@ -403,6 +403,25 @@ export default function LandingPage() {
       >
         <MeshGradient />
 
+        {/* Sign Up button */}
+        <div className="absolute top-5 right-5 z-20">
+          <button
+            onClick={() => navigate("/signup")}
+            className="text-xs font-medium px-4 py-2 rounded-full transition-all duration-150 hover:scale-[1.03] active:scale-[0.97]"
+            style={{
+              background: "rgba(255,255,255,0.18)",
+              border: "1px solid rgba(255,255,255,0.35)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              color: "rgba(0,0,0,0.65)",
+              cursor: "pointer",
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+          >
+            Sign Up
+          </button>
+        </div>
+
         {/* ── Toast ── */}
         {toast && (
           <div
