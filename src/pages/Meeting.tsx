@@ -245,6 +245,7 @@ export default function Meeting({ roomId, localName = "You" }: MeetingProps) {
           {/* Video area */}
           <div className="flex flex-col flex-1 overflow-hidden p-3 gap-3 min-w-0">
 
+            {/* Local screen share */}
             {isScreenSharing && screenShareStream && (
               <div className="flex-shrink-0" style={{ maxHeight: "45%" }}>
                 <ScreenShare
@@ -256,6 +257,21 @@ export default function Meeting({ roomId, localName = "You" }: MeetingProps) {
                 />
               </div>
             )}
+
+            {/* Remote screen share */}
+            {!isScreenSharing && (() => {
+              const sharer = participants.find((p) => p.screenShareStream != null)
+              return sharer ? (
+                <div className="flex-shrink-0" style={{ maxHeight: "45%" }}>
+                  <ScreenShare
+                    stream={sharer.screenShareStream!}
+                    sharerName={sharer.name}
+                    isLocalSharer={false}
+                    className="w-full h-full"
+                  />
+                </div>
+              ) : null
+            })()}
 
             <div className="flex-1 min-h-0 overflow-hidden">
               <VideoGrid

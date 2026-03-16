@@ -11,6 +11,7 @@ export interface Participant {
   isMuted: boolean;
   isCameraOff: boolean;
   isScreenSharing?: boolean;
+  screenShareStream?: MediaStream | null;
   isSpeaking?: boolean;
   isLocal?: boolean;
   /** Connection quality: 0–3 (0 = disconnected, 3 = excellent) */

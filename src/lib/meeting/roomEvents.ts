@@ -4,6 +4,7 @@ import {
   RemoteParticipant,
   Room,
   RoomEvent,
+  Track,
 } from 'livekit-client'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -11,6 +12,7 @@ import {
 export interface MeetingParticipant {
   identity: string
   videoStream: MediaStream | null
+  screenShareStream: MediaStream | null
   isMuted: boolean
   isCameraOff: boolean
   connectionQuality: 0 | 1 | 2 | 3
@@ -39,14 +41,17 @@ function getVideoStream(track: object & { mediaStreamTrack: MediaStreamTrack }):
 
 function participantToState(p: RemoteParticipant): MeetingParticipant {
   let videoStream: MediaStream | null = null
+  let screenShareStream: MediaStream | null = null
   let isCameraOff = true
   let isMuted = true
 
   for (const pub of p.videoTrackPublications.values()) {
-    if (pub.isSubscribed && pub.videoTrack && !pub.isMuted) {
+    if (!pub.isSubscribed || !pub.videoTrack || pub.isMuted) continue
+    if (pub.source === Track.Source.ScreenShare) {
+      screenShareStream = getVideoStream(pub.videoTrack)
+    } else if (pub.source === Track.Source.Camera) {
       videoStream = getVideoStream(pub.videoTrack)
       isCameraOff = false
-      break
     }
   }
 
@@ -60,6 +65,7 @@ function participantToState(p: RemoteParticipant): MeetingParticipant {
   return {
     identity: p.identity,
     videoStream,
+    screenShareStream,
     isMuted,
     isCameraOff,
     connectionQuality: mapQuality(p.connectionQuality),
@@ -82,6 +88,8 @@ export function attachRoomEvents(
 
   room.on(RoomEvent.ParticipantConnected, refresh)
   room.on(RoomEvent.ParticipantDisconnected, refresh)
+  room.on(RoomEvent.TrackPublished, refresh)
+  room.on(RoomEvent.TrackUnpublished, refresh)
   room.on(RoomEvent.TrackSubscribed, refresh)
   room.on(RoomEvent.TrackUnsubscribed, refresh)
   room.on(RoomEvent.TrackMuted, refresh)
@@ -92,6 +100,8 @@ export function attachRoomEvents(
   return () => {
     room.off(RoomEvent.ParticipantConnected, refresh)
     room.off(RoomEvent.ParticipantDisconnected, refresh)
+    room.off(RoomEvent.TrackPublished, refresh)
+    room.off(RoomEvent.TrackUnpublished, refresh)
     room.off(RoomEvent.TrackSubscribed, refresh)
     room.off(RoomEvent.TrackUnsubscribed, refresh)
     room.off(RoomEvent.TrackMuted, refresh)

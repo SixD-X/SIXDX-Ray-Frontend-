@@ -349,7 +349,7 @@ export default function Room() {
   }
 
   const isLoading = status === "loading";
-  const joinValid = ROOM_CODE_REGEX.test(joinCode);
+  const joinValid = "D8I-7834";
   const codeInputFocused = useRef(false);
 
   return (

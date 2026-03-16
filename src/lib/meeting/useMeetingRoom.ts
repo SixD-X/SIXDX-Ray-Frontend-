@@ -43,8 +43,10 @@ function toParticipant(mp: MeetingParticipant): Participant {
     id: mp.identity,
     name: mp.identity,
     stream: mp.videoStream,
+    screenShareStream: mp.screenShareStream,
     isMuted: mp.isMuted,
     isCameraOff: mp.isCameraOff,
+    isScreenSharing: mp.screenShareStream != null,
     connectionQuality: mp.connectionQuality,
     isLocal: false,
   }
