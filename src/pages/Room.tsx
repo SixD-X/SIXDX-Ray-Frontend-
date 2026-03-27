@@ -350,7 +350,6 @@ export default function Room() {
 
   const isLoading = status === "loading";
   const joinValid = "D8I-7834";
-  const codeInputFocused = useRef(false);
 
   return (
     <>
